@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Amount</title>
+</head>
+<head th:replace="layouts::header"></head>
+
+<body>
+<nav th:replace="layouts:: navbar"></nav>
+<div th:fragment="data-amount" class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Data Amount</h1>
+            <p class="lead"><span th:text="${cntListing}"></span></p>
+            <p class="lead"><span th:text="${cntUsers}"></span></p>
+            <p class="lead"><span th:text="${cntModel}"></span></p>
+            <p class="lead"><span th:text="${cntVehicle}"></span></p>
+            <p class="lead"><span th:text="${cntLocation}"></span></p>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

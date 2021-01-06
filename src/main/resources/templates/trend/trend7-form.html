@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>trend-form</title>
+</head>
+<head th:replace="layouts::header"></head>
+<body>
+<nav th:replace="layouts:: navbar"></nav>
+
+<div th:fragment="trend7-description" class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Trend of Top-3 Brand</h1>
+            <p class="lead">Showing the sales top-3 brand with their sales number during 2015-2019 on a bar chart</p>
+            <p class="lead">Red shows 1st brand each year</p>
+            <p class="lead">Blue shows 2nd brand each year</p>
+            <p class="lead">yellow shows 3rd brand each year</p>
+            <form th:action="@{/trend7/show}" method="GET">
+                <input class="btn btn-primary" type="submit" value="Show">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

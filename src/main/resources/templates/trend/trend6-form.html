@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>trend-form</title>
+</head>
+<head th:replace="layouts::header"></head>
+<body>
+<nav th:replace="layouts:: navbar"></nav>
+
+<div th:fragment="trend6-description" class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Trend of Number in a Location</h1>
+            <p class="lead">The trend of total number of used cars in a location with selected parameters.</p>
+        </div>
+    </div>
+</div>
+
+<form th:action="@{/trend6/show}" method="GET">
+    <div th:fragment="form" class="container justify-content-md-center col-8">
+        <input class="btn btn-primary" type="submit" value="Show">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>minYear</label>
+                <input class="form-control" type="text" name="minYear" th:field="${para6.minYear}">
+            </div>
+            <div class="form-group col-md-6">
+                <label>maxYear</label>
+                <input class="form-control" type="text" name="maxYear" th:field="${para6.maxYear}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>state</label>
+                <input class="form-control" type="text" name="manufacturer" th:field="${para6.state}">
+            </div>
+            <div class="form-group col-md-6">
+                <label>region</label>
+                <input class="form-control" type="text" name="model" th:field="${para6.region}">
+            </div>
+        </div>
+    </div>
+</form>
+
+
+</body>
+</html>

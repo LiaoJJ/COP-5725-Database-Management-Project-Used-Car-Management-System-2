@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+</head>
+<head th:replace="layouts::header"></head>
+<body>
+
+<nav th:replace="layouts:: navbar"></nav>
+<div th:fragment="system-description" class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">System Description</h1>
+            <p class="lead">The Used Car System contains information about car models, manufacturers, regions, odometers, etc. Users can not only search for those cars they want by providing some specific conditions, but also can they take a look at some interesting trends. Those trends can help users especially analysts or managers to better understand the sales of the used cars nationwide in recent decades.</p>
+            <p class="lead">To meet the requirement of a minimum data volume of 250000, press the following button to show total data amount.</p>
+            <p>
+                <form th:action="@{/showamount}" method="GET">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Show Data Amount">
+                    </div>
+                </form>
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

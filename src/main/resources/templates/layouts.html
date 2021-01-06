@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Title</title>
+<!--    <link rel="stylesheet" th:href="@{/css/formatting.css}">-->
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Used Car System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/home}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/search/form/}">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/trend1/form}">Trend1</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/trend2/form}">Trend2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/trend3/form}">Trend3</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/trend4/form}">Trend4</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/trend5/form}">Trend5</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/trend6/form}">Trend6</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/trend7/form}">Trend7</a>
+            </li>
+            <li class="nav-item">
+                <form th:action="@{/entry}">
+                    <input class="btn btn-primary" type="submit" value="logout">
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--<div th:fragment="form" class="container justify-content-md-center col-8">-->
+<!--        <input class="btn btn-primary" type="submit" value="Show">-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>minYear</label>-->
+<!--                <input class="form-control" type="text" name="minYear" th:field="${para0.minYear}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>maxYear</label>-->
+<!--                <input class="form-control" type="text" name="maxYear" th:field="${form.maxYear}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>manufacturers</label>-->
+<!--                <input class="form-control" type="text" name="manufacturer" th:field="${form.manufacturer}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>model</label>-->
+<!--                <input class="form-control" type="text" name="model" th:field="${form.model}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>maxPrice</label>-->
+<!--                <input class="form-control" type="text" name="maxPrice" th:field="${form.maxPrice}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>maxMileage</label>-->
+<!--                <input class="form-control" type="text" name="maxMileage" th:field="${form.maxMileage}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>fuelType</label>-->
+<!--                <input class="form-control" type="text" name="fuelType" placeholder="gas" th:field="${form.fuelType}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>numOfCylinders</label>-->
+<!--                <input class="form-control" type="text" name="numOfCylinders" placeholder="6 cylinders" th:field="${form.numOfCylinders}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>size</label>-->
+<!--                <input class="form-control" type="text" name="size" placeholder="full-size" th:field="${form.size}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>region</label>-->
+<!--                <input class="form-control" type="text" name="region" placeholder="" th:field="${form.region}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>condition</label>-->
+<!--                <input class="form-control" type="text" name="condition" placeholder="excellent" th:field="${form.condition}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>titleStatus</label>-->
+<!--                <input class="form-control" type="text" name="titleStatus" placeholder="clean" th:field="${form.titleStatus}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>typeOfVehicle</label>-->
+<!--                <input class="form-control" type="text" name="typeOfVehicle" placeholder="sedan" th:field="${form.typeOfVehicle}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>transmissionType</label>-->
+<!--                <input class="form-control" type="text" name="transmissionType" placeholder="automatic" th:field="${form.transmissionType}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>typeOfDrive</label>-->
+<!--                <input class="form-control" type="text" name="typeOfDrive" placeholder="4wd" th:field="${form.typeOfDrive}">-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label>color</label>-->
+<!--                <input class="form-control" type="text" name="color" placeholder="white" th:field="${form.color}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--</div>-->
+
+</body>
+</html>

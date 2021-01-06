@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>trend1-show</title>
+</head>
+<head th:replace="layouts::header"></head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<body>
+
+<nav th:replace="layouts:: navbar"></nav>
+<div th:replace="trend/trend6-form:: trend6-description"></div>
+
+<div class="container col-6">
+    <canvas id="myChart1" width="50" height="50"></canvas>
+
+    <script>
+        var chartData = "[[${jsonString}]]"
+        var ChartType = "line"
+        var ChartName = "Trend-6"
+        var ChartFill = false
+        var ChartBorderDash = []
+        var ChartPointStyle = "triangle"
+        var ChartShowLine = true
+    </script>
+</div>
+
+
+<script type="text/javascript" th:src="@{/js/myChart1.js}"></script>
+</body>
+</html>

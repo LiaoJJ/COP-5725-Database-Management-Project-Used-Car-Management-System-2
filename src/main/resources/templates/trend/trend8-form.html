@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>trend-form</title>
+</head>
+<head th:replace="layouts::header"></head>
+<body>
+<nav th:replace="layouts:: navbar"></nav>
+
+<div th:fragment="trend8-description" class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Trend of Top-5 Sales State</h1>
+            <p class="lead">Showing the sales top-5 sales state with their sales number during 2015-2019 on a line chart</p>
+            <p class="lead">In order to analysis the potential top-5 profitable states</p>
+            <p class="lead">Red shows 1st sales states</p>
+            <p class="lead">Blue shows 2nd sales states</p>
+            <p class="lead">Yellow shows 3rd sales states</p>
+            <p class="lead">Cyan shows 4rd sales states</p>
+            <p class="lead">Purple shows 5rd sales states</p>
+        </div>
+    </div>
+</div>
+
+<form th:action="@{/trend8/show}" method="GET">
+    <input class="btn btn-primary" type="submit" value="Show">
+</form>
+
+
+</body>
+</html>
