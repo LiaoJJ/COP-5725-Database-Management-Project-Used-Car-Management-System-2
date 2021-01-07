@@ -27,7 +27,14 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>manufacturers</label>
-                <input class="form-control" type="text" name="manufacturer" th:field="${para0.manufacturer}">
+<!--                <input class="form-control" type="text" name="manufacturer" th:field="${para0.manufacturer}">-->
+                <select class="form-control" name="manufacturer">
+                    <option th:each="manufacturer : ${para0.manufacturerList}"
+                            th:value="${manufacturer}"
+                            th:text="${manufacturer}"
+                            th:selected="${manufacturer=='toyota'}"
+                            name="manufacturer">AAA</option>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>model</label>
@@ -57,17 +64,36 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>state</label>
-                <input class="form-control" type="text" name="size"  th:field="${para0.state}">
+<!--                <input class="form-control" type="text" name="size"  th:field="${para0.state}">-->
+                <select class="form-control" name="state">
+                    <option th:each="state : ${para0.stateList}"
+                            th:value="${#strings.toUpperCase(state)}"
+                            th:text="${#strings.toUpperCase(state)}"
+                            th:selected="${#strings.toUpperCase(state)=='FL'}"
+                            name="state">AAA</option>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>title status</label>
-                <input class="form-control" type="text" name="region"  th:field="${para0.status}">
+<!--                <input class="form-control" type="text" name="region"  th:field="${para0.status}">-->
+                <select class="form-control" name="status">
+                    <option th:each="status : ${para0.statusList}"
+                            th:value="${status}"
+                            th:text="${status}"
+                            name="status">AAA</option>
+                </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>color</label>
-                <input class="form-control" type="text" name="condition"  th:field="${para0.color}">
+<!--                <input class="form-control" type="text" name="condition"  th:field="${para0.color}">-->
+                <select class="form-control" name="color">
+                    <option th:each="color : ${para0.colorList}"
+                            th:value="${color}"
+                            th:text="${color}"
+                            name="color">AAA</option>
+                </select>
             </div>
 
         </div>

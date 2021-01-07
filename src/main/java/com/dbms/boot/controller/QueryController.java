@@ -1,12 +1,11 @@
 package com.dbms.boot.controller;
 
-import com.dbms.boot.domain.Listing;
 import com.dbms.boot.entities.*;
 import com.dbms.boot.repository.*;
 //import com.dbms.boot.object.*;
+import com.dbms.boot.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -16,12 +15,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.HTML;
 
 @Controller
 public class QueryController {
     @Autowired
     private QueryRepository queryRepository;
+
+    @Autowired
+    ListService listService;
 
     private Integer bigToInt(BigDecimal b) {
         if (b == null) return null;
@@ -35,6 +36,10 @@ public class QueryController {
     @GetMapping("/search/form")
     public String form0(Model model) {
         SearchPara p = new SearchPara();
+        p.setManufacturerList(listService.manufacturerList());
+        p.setStatusList(listService.statusList());
+        p.setStateList(listService.stateList());
+        p.setColorList(listService.colorList());
         model.addAttribute("para0", p);
         return "search/search-form";
     }
@@ -61,13 +66,16 @@ public class QueryController {
         return "search/search-show";
     }
 
-    @GetMapping("/trend1/form")
+    @GetMapping("/trend/form/1")
     public String form1(Model model) {
         QueryPara p = new QueryPara();
+        p.setConditionList(listService.conditionList());
+        p.setStatusList(listService.statusList());
+        p.setFuelList(listService.fuelList());
         model.addAttribute("para1", p);
         return "trend/trend1-form";
     }
-    @GetMapping("/trend1/show")
+    @GetMapping("/trend/show/1")
     public String show1(Model model, HttpServletRequest request) throws JsonProcessingException {
         String modelName = request.getParameter("modelName"), condition = request.getParameter("condition"), status = request.getParameter("status"), fuel = request.getParameter("fuel");
         String minYearStr = request.getParameter("minYear"), maxYearStr = request.getParameter("maxYear");
@@ -88,13 +96,16 @@ public class QueryController {
         return "trend/trend1-show";
     }
 
-    @GetMapping("/trend2/form")
+    @GetMapping("/trend/form/2")
     public String form2(Model model) {
         QueryPara p = new QueryPara();
+        p.setConditionList(listService.conditionList());
+        p.setStatusList(listService.statusList());
+        p.setFuelList(listService.fuelList());
         model.addAttribute("para2", p);
         return "trend/trend2-form";
     }
-    @GetMapping("/trend2/show")
+    @GetMapping("/trend/show/2")
     public String show2(Model model, HttpServletRequest request) throws JsonProcessingException {
         String modelName = request.getParameter("modelName"), condition = request.getParameter("condition"), status = request.getParameter("status"), fuel = request.getParameter("fuel");
         String minYearStr = request.getParameter("minYear"), maxYearStr = request.getParameter("maxYear");
@@ -121,13 +132,16 @@ public class QueryController {
         return "trend/trend2-show";
     }
 
-    @GetMapping("/trend3/form")
+    @GetMapping("/trend/form/3")
     public String form3(Model model) {
         QueryPara p = new QueryPara();
+        p.setManufacturerList(listService.manufacturerList());
+        p.setConditionList(listService.conditionList());
+        p.setStatusList(listService.statusList());
         model.addAttribute("para3", p);
         return "trend/trend3-form";
     }
-    @GetMapping("/trend3/show")
+    @GetMapping("/trend/show/3")
     public String show3(Model model, HttpServletRequest request) throws JsonProcessingException {
         String manufacturer = request.getParameter("manufacturer"), modelName = request.getParameter("modelName"), condition = request.getParameter("condition"), status = request.getParameter("status");
         String minYearStr = request.getParameter("minYear"), maxYearStr = request.getParameter("maxYear");
@@ -147,13 +161,16 @@ public class QueryController {
         return "trend/trend3-show";
     }
 
-    @GetMapping("/trend4/form")
+    @GetMapping("/trend/form/4")
     public String form4(Model model) {
         QueryPara p = new QueryPara();
+        p.setManufacturerList(listService.manufacturerList());
+        p.setConditionList(listService.conditionList());
+        p.setStatusList(listService.statusList());
         model.addAttribute("para4", p);
         return "trend/trend4-form";
     }
-    @GetMapping("trend4/show")
+    @GetMapping("trend/show/4")
     public String show4(Model model, HttpServletRequest request) throws JsonProcessingException {
         String manufacturer = request.getParameter("manufacturer"), modelName = request.getParameter("modelName"), condition = request.getParameter("condition"), status = request.getParameter("status");
         String minYearStr = request.getParameter("minYear"), maxYearStr = request.getParameter("maxYear");
@@ -173,13 +190,14 @@ public class QueryController {
         return "trend/trend4-show";
     }
 
-    @GetMapping("/trend5/form")
+    @GetMapping("/trend/form/5")
     public String form5(Model model) {
         QueryPara p = new QueryPara();
+        p.setManufacturerList(listService.manufacturerList());
         model.addAttribute("para5", p);
         return "trend/trend5-form";
     }
-    @GetMapping("trend5/show")
+    @GetMapping("trend/show/5")
     public String show5(Model model, HttpServletRequest request) throws JsonProcessingException {
         String manufacturer = request.getParameter("manufacturer"), modelName = request.getParameter("modelName");
         String minYearStr = request.getParameter("minYear"), maxYearStr = request.getParameter("maxYear");
@@ -197,13 +215,15 @@ public class QueryController {
         return "trend/trend5-show";
     }
 
-    @GetMapping("trend6/form")
+    @GetMapping("trend/form/6")
     public String form6(Model model) {
         QueryPara p = new QueryPara();
+        p.setRegionList(listService.regionList());
+        p.setStateList(listService.stateList());
         model.addAttribute("para6", p);
         return "trend/trend6-form";
     }
-    @GetMapping("trend6/show")
+    @GetMapping("trend/show/6")
     public String show6(Model model, HttpServletRequest request) throws JsonProcessingException {
         String state = request.getParameter("state"), region = request.getParameter("region");
         String minYearStr = request.getParameter("minYear"), maxYearStr = request.getParameter("maxYear");
@@ -221,11 +241,11 @@ public class QueryController {
         return "trend/trend6-show";
     }
 
-    @GetMapping("/trend7/form")
+    @GetMapping("/trend/form/7")
     public String form7(Model model){
         return "trend/trend7-form";
     }
-    @GetMapping("/trend7/show")
+    @GetMapping("/trend/show/7")
     public String show7(Model model) throws JsonProcessingException {
         List<Object[]> objects = queryRepository.showComplex7();
         List<Trend7> list = objects.stream().map(

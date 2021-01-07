@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<form th:action="@{/trend3/show}" method="GET">
+<form th:action="@{/trend/show/3}" method="GET">
     <div th:fragment="form" class="container justify-content-md-center col-8">
         <input class="btn btn-primary" type="submit" value="Show">
         <div class="form-row">
@@ -33,7 +33,14 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>manufacturer</label>
-                <input class="form-control" type="text" name="manufacturer" th:field="${para3.manufacturer}">
+<!--                <input class="form-control" type="text" name="manufacturer" th:field="${para3.manufacturer}">-->
+                <select class="form-control" name="manufacturer">
+                    <option th:each="manufacturer : ${para3.manufacturerList}"
+                            th:value="${manufacturer}"
+                            th:text="${manufacturer}"
+                            th:selected="${manufacturer=='toyota'}"
+                            name="manufacturer">AAA</option>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>model</label>
@@ -43,11 +50,23 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>title</label>
-                <input class="form-control" type="text" name="maxPrice" th:field="${para3.status}">
+<!--                <input class="form-control" type="text" name="maxPrice" th:field="${para3.status}">-->
+                <select class="form-control" name="status">
+                    <option th:each="status : ${para3.statusList}"
+                            th:value="${status}"
+                            th:text="${status}"
+                            name="status">AAA</option>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>condition</label>
-                <input class="form-control" type="text" name="maxMileage" th:field="${para3.condition}">
+<!--                <input class="form-control" type="text" name="maxMileage" th:field="${para3.condition}">-->
+                <select class="form-control" name="condition">
+                    <option th:each="condition : ${para3.conditionList}"
+                            th:value="${condition}"
+                            th:text="${condition}"
+                            name="condition">AAA</option>
+                </select>
             </div>
         </div>
     </div>

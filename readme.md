@@ -6,6 +6,39 @@ In this project, we build a used car management system, we grab the data from [U
 
 The concentration of this project will be displaying the insight of databases. We display 8 trending pictures using customized SQL query to display some useful insights of the data.
 
+## Functionality
+
+#### Search form
+- Dynamic List/dropdown selector
+- Text Input
+
+#### Elastic Search (building)
+- start a Elastic Search Server by start.sh
+- Initialization: Insert and build Index, (This part could be done by Python)
+- Provide Endpoint for search
+- Display results by WebPages
+
+#### 7 Complex Query 
+
+- Dynamic List/dropdown selector
+- Designed 7 Complex Customized Query
+
+## Technology Stack
+- Spring Boot, Java
+- MySQL, JPA, Hibernate
+- Thymeleaf, Bootstrap, HTML, JavaScript
+- Docker, Heroku, Shell
+
+#### RESTful API
+
+For Search
+- /search/form
+- /search/Elastic
+
+For Trending Query
+- /trend/form/1
+- /trend/show/1
+
 ## Report 
 This is our 3 reports to this project
 
@@ -73,6 +106,16 @@ use a start.sh to sleep 10 seconds
 
 ## Docker
 
+## Docker Description for interview
+Docker is a  tools for deployment. It consist of 3 components. Images, Container, and DockerHub.
+Docker is a minimized virtual machine, which could help deployment.
+- Images is a pack of a files, and it is the standard deployment file
+- Container is running images, engineer need to monitor and maintain many container
+- DockerHub is somewhere to download and upload Images, we can build our own images based on these images from DockerHub
+Dockerfile is a standard way to generate Images and deployment applications. Dockerfile is consist of many lines. Every line will be executed and generated a images based on previous results.
+Dockerfile is like a layered structure.
+When we deploy our program, all we need is source code and Dockerfile.
+
 #### useful command
 ```shell script
 docker rm -f $(docker ps -a -q)
@@ -134,7 +177,9 @@ cannot start mysql
 
 use a start.sh, still cannot
 
-use another abc.sh in background with sleep(delay), solved, but cannot deployed to Heroku. Since it requires ${PORT} binding, and this binding can only happen in CMD of Dockerfile, so it's impossible to deploy
+use another abc.sh in background with sleep(delay), solved, but cannot deployed to Heroku. Since it requires ${PORT} binding, and this binding can only happen in CMD of Dockerfile, so it's impossible to deploy. 
+When I tried it, it tomcat always listen to 8080 which means the $PORT is not binded correctly.
+I guess the bind can only happend in CMD of Dockerfile, since the previous line of Dockerfile are generated beforehand, only the CMD last line will be executed in running time.
 
 solutions:
 - understand how to start mysqld in shell
@@ -154,12 +199,25 @@ how to connect them in heroku, not solved, don't waste time
 
 
 
-Future:
+## Future:
 
 - Input Data is static, it should be dynamically crawlered from some website
-- Add ElasticSearch full-text search
 - design RESTful API
 - seperate Frontend and Backend, communicate by JSON data
+- add Cache for list Query
+
+
+
+
+## Experiences
+
+I waste too many time on plan picking and I even tried all the failed path. I deploy it more than 50 times. This waste me tons of time and I learn not really much. This is not reasonable.
+
+What is correct is picking a workable and simple way, and then implement the workable solution. Do not waste time on useless details.
+
+Waste your time on valuable things, not trivial details.
+
+I should improve my scope and do not waste time on trivial details.
 
 
 ## Version:

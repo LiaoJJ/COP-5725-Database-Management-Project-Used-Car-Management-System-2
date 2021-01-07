@@ -37,15 +37,14 @@
 
 
 
-#
-#
-#
+
+
+
 #FROM mysql:5.7
-#
 #
 #ADD jdk-8u271-linux-x64.tar.gz /usr/local
 #COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
-#COPY /start.sh /docker-entrypoint-initdb.d/
+#COPY /archive/start.sh /docker-entrypoint-initdb.d/
 ##COPY /abc.sh /
 #RUN ["chmod", "+x", "/docker-entrypoint-initdb.d/start.sh"]
 ##RUN ["chmod", "+x", "/abc.sh"]
@@ -57,11 +56,10 @@
 #ENV MYSQL_DATABASE Mybatis
 #
 ##ENV HEROKU_PORT "${PORT:8181}"
-#RUN echo -e '#!/bin/sh \n sleep 5 \n java -jar /app.jar --server.port=${PORT:8181}' > /abc.sh
+#RUN echo -e '#!/bin/sh \n sleep 3 \n java -jar /app.jar --server.port=${PORT:8181}' > /abc.sh
 #RUN ["chmod", "+x", "/abc.sh"]
 #
-#
-#COPY my.cnf /etc/mysql/my.cnf
+#COPY /archive/my.cnf /etc/mysql/my.cnf
 #
 #EXPOSE 3306
 #EXPOSE 8181
@@ -70,10 +68,12 @@
 
 
 
+
+
 FROM openjdk:8-jre-alpine
 
 COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
 
-#EXPOSE $PORT
+EXPOSE $PORT
 
 CMD ["java","-jar", "/app.jar", "--server.port=${PORT:8181}"]

@@ -1,17 +1,25 @@
 package com.dbms.boot.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchPara {
-    private Integer minYear;
-    private Integer maxYear;
-    private String manufacturer;
+    private Integer minYear = 2000;
+    private Integer maxYear = 2020;
+    private String manufacturer = "Toyota";
     private String modelName;
-    private Integer minPrice;
-    private Integer maxPrice;
+    private Integer minPrice = 0;
+    private Integer maxPrice = 50000;
     private Integer minOdo;
     private Integer maxOdo;
     private String state;
     private String status;
     private String color;
+
+    private List<String> manufacturerList = new ArrayList<>();
+    private List<String> stateList = new ArrayList<>();
+    private List<String> statusList = new ArrayList<>();
+    private List<String> colorList = new ArrayList<>();
 
     public Integer getMinYear() {
         return minYear;
@@ -78,5 +86,37 @@ public class SearchPara {
     }
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public List<String> getManufacturerList() {
+        return manufacturerList;
+    }
+
+    public void setManufacturerList(List<String> manufacturerList) {
+        this.manufacturerList = manufacturerList;
+    }
+
+    public List<String> getStateList() {
+        return stateList;
+    }
+
+    public void setStateList(List<String> stateList) {
+        this.stateList = stateList;
+    }
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
+    }
+
+    public List<String> getColorList() {
+        return colorList;
+    }
+
+    public void setColorList(List<String> colorList) {
+        this.colorList = colorList;
     }
 }
