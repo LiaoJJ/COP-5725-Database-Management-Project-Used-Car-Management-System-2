@@ -76,4 +76,4 @@ COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
 
 EXPOSE $PORT
 
-CMD ["java","-jar", "/app.jar", "--server.port=${PORT:8181}"]
+CMD ["java", "-Xss512k", "-Xmx256m","-jar", "/app.jar", "--server.port=${PORT:8181}"]

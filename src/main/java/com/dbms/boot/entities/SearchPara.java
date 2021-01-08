@@ -6,12 +6,12 @@ import java.util.List;
 public class SearchPara {
     private Integer minYear = 2000;
     private Integer maxYear = 2020;
-    private String manufacturer = "Toyota";
+    private String manufacturer = "ford";
     private String modelName;
     private Integer minPrice = 0;
     private Integer maxPrice = 50000;
-    private Integer minOdo;
-    private Integer maxOdo;
+    private Integer minOdo = 0;
+    private Integer maxOdo = 200000;
     private String state;
     private String status;
     private String color;

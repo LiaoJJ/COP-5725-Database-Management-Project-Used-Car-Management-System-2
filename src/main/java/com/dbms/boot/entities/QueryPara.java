@@ -18,7 +18,7 @@ public class QueryPara {
     private String condition;
     private String status;
     private String fuel;
-    private String manufacturer = "Toyota";
+    private String manufacturer = "ford";
     private String state;
     private String region;
 

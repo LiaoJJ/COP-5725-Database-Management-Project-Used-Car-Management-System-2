@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface TestRepository extends JpaRepository<Employee, Integer>{
-    @Query(nativeQuery = true, value = "SELECT * FROM Employee")
+    @Query(nativeQuery = true, value = "SELECT * FROM EMPLOYEE")
     List<Employee> countListing();
 }
 

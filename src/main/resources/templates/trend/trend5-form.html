@@ -38,7 +38,7 @@
                     <option th:each="manufacturer : ${para5.manufacturerList}"
                             th:value="${manufacturer}"
                             th:text="${manufacturer}"
-                            th:selected="${manufacturer=='toyota'}"
+                            th:selected="${#strings.toUpperCase(manufacturer)=='TOYOTA'}"
                             name="manufacturer">AAA</option>
                 </select>
             </div>

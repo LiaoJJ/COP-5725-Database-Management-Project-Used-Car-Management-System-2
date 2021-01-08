@@ -15,9 +15,9 @@ public interface ModelRepository extends JpaRepository<Carmodel, String>{
     @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM CARMODEL")
     BigDecimal countModel();
 
-    @Query(nativeQuery = true, value = "select DISTINCT designed_by  FROM CARMODEL ORDER BY designed_by;")
+    @Query(nativeQuery = true, value = "select DISTINCT DESIGNED_BY  FROM CARMODEL ORDER BY DESIGNED_BY;")
     List<String> manufacturerList();
 
-    @Query(nativeQuery = true, value = "select DISTINCT fuel  FROM CARMODEL ORDER BY fuel;")
+    @Query(nativeQuery = true, value = "select DISTINCT FUEL  FROM CARMODEL ORDER BY FUEL;")
     List<String> fuelList();
 }

@@ -64,6 +64,7 @@
                     <option th:each="fuel : ${para1.fuelList}"
                             th:value="${fuel}"
                             th:text="${fuel}"
+                            th:selected="${#strings.toUpperCase(fuel)=='GAS'}"
                             name="fuel">AAA</option>
                 </select>
             </div>

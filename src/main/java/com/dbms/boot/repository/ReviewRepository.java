@@ -7,6 +7,6 @@ import java.math.BigDecimal;
 
 
 public interface ReviewRepository extends JpaRepository<Review, BigDecimal>{
-    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM Review")
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM REVIEW")
     BigDecimal countReview();
 }

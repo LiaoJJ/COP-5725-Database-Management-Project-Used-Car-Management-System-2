@@ -49,6 +49,7 @@
                     <option th:each="region : ${para6.regionList}"
                             th:value="${region}"
                             th:text="${region}"
+                            th:selected="${#strings.toUpperCase(region)=='GAINESVILLE'}"
                             name="region">AAA</option>
                 </select>
             </div>

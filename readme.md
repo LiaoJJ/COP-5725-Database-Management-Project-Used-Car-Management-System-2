@@ -94,6 +94,14 @@ docker exec -i 3b83d0e6eae9 sh -c 'exec mysql -u root --password=12345678 Mybati
 
 #### MySQL Problems:
 
+## Remote MySQL
+It's case sensitive, so I have to configure IgnoreCase in Repository
+Create table by .sql file, change it to uppercase by shell `dd if=input.txt of=output.txt conv=ucase`
+
+#### Username and password wrong
+This was usually caused by exceeds the max connection, remember to close connection after using.
+
+
 ##### cannot connect MySQL in Docker:
 need to wait for several seconds for initializing of MySQL
 use a start.sh to sleep 10 seconds
@@ -102,6 +110,8 @@ use a start.sh to sleep 10 seconds
 ##### MySQL Table Name Case Sensitive Problem:
 - lower-case-table-names=1
 - add above line to my.cnf file
+
+
 
 
 ## Docker
@@ -140,7 +150,7 @@ heroku logs --tail
 
 #### How to bind the port 
 - application.properties: server.port=${PORT: 8181}
-- Dockerfile: CMD ["java","-jar", "/app.jar", "--server.port=${PORT:8181}"]
+- Dockerfile: `CMD ["java", "-Xss512k", "-Xmx256m","-jar", "/app.jar", "--server.port=${PORT:8181}"]`
 
 since heroku requires 60s to bind the port, however, the slow start of spring boot may exceed this time, below operations may be heliful
 1. open https://dashboard.heroku.com/apps/dbms-jiajing/resources
@@ -148,13 +158,16 @@ since heroku requires 60s to bind the port, however, the slow start of spring bo
 3. reopen the project
 
 Below line means success, but it still may exceeds 60 seconds limit, so try more times.
-```
+```shell script
 java -jar /app.jar --server.port\=\$\{PORT:8181\}
 ```
 
 #### Volume exceed problem:
-MySQL: tailor the database to 1/4 size
-Heroku: it still work though memory exceeds
+`error r14 (memory quota exceeded)`
+ClearDB 5MB Limit: tailor the database to 1/4 size
+Heroku: it still work though memory exceeds, but will be slower, and it will shutdown instead of sleep while idle
+Solution: Configure JVM
+`CMD ["java", "-Xss512k", "-Xmx256m","-jar", "/app.jar", "--server.port=${PORT:8181}"]`
 
 
 ## Deployment PLAN
@@ -205,6 +218,7 @@ how to connect them in heroku, not solved, don't waste time
 - design RESTful API
 - seperate Frontend and Backend, communicate by JSON data
 - add Cache for list Query
+- optimize Query efficiency
 
 
 

@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface LocationRepository extends JpaRepository<Location, LocationUPK>{
-    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM Location")
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM LOCATION")
     BigDecimal countLocation();
 
 
-    @Query(nativeQuery = true, value = "select DISTINCT region FROM location  ORDER BY region;")
+    @Query(nativeQuery = true, value = "select DISTINCT REGION FROM LOCATION WHERE REGION IS NOT NULL ORDER BY REGION;")
     List<String> regionList();
 
-    @Query(nativeQuery = true, value = "select DISTINCT state FROM location ORDER BY state;")
+    @Query(nativeQuery = true, value = "select DISTINCT STATE FROM LOCATION  WHERE STATE IS NOT NULL ORDER BY STATE;")
     List<String> stateList();
 }

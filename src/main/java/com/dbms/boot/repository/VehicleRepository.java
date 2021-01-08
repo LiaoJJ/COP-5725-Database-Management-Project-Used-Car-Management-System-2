@@ -10,12 +10,12 @@ public interface VehicleRepository extends JpaRepository<Vehicle, String>{
     @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM VEHICLE")
     BigDecimal countVehicle();
 
-    @Query(nativeQuery = true, value = "select DISTINCT `condition`  FROM VEHICLE ORDER BY `condition`;")
+    @Query(nativeQuery = true, value = "select DISTINCT `CONDITION`  FROM VEHICLE  WHERE `CONDITION` IS NOT NULL ORDER BY `CONDITION`;")
     List<String> conditionList();
 
-    @Query(nativeQuery = true, value = "select DISTINCT `title_status`  FROM VEHICLE ORDER BY `title_status`;")
+    @Query(nativeQuery = true, value = "select DISTINCT `TITLE_STATUS`  FROM VEHICLE WHERE `TITLE_STATUS` IS NOT NULL ORDER BY `TITLE_STATUS`;")
     List<String> statusList();
 
-    @Query(nativeQuery = true, value = "select DISTINCT color  FROM vehicle  ORDER BY color;")
+    @Query(nativeQuery = true, value = "select DISTINCT COLOR  FROM VEHICLE  ORDER BY COLOR;")
     List<String> colorList();
 }

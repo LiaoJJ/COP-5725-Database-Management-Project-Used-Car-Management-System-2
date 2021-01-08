@@ -13,74 +13,74 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "AND c.DESIGNED_BY LIKE ?3 AND c.MODEL_NAME LIKE ?4 AND v.PRICE >= ?5 \n" +
             "AND v.PRICE <= ?6 AND v.ODOMETER >= ?7 AND v.ODOMETER <= ?8\n" +
             "AND v.STATE LIKE ?9 AND v.TITLE_STATUS LIKE ?10 AND v.COLOR LIKE ?11")
-    List<Object[]> showSimple(Integer minYear, Integer maxYear, String manufacturer, String modelName, Integer minPrice, Integer maxPrice, Integer minOdo, Integer maxOdo, String state, String status, String color);
+    List<Object[]> showSimple(Integer minYear, Integer maxYear, String manufacturer, String MODELName, Integer minPrice, Integer maxPrice, Integer minOdo, Integer maxOdo, String state, String status, String color);
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT t.avgprice, t2.numof, Listing.year\n" +
-            "FROM LISTING,(SELECT AVG(VEHICLE.price) as avgprice, Listing.year\n" +
+    @Query(nativeQuery = true, value = "SELECT DISTINCT t.avgprice, t2.numof, LISTING.year\n" +
+            "FROM LISTING,(SELECT AVG(VEHICLE.price) as avgprice, LISTING.year\n" +
             "FROM LISTING, VEHICLE, CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME  AND CARMODEL.MODEL_NAME LIKE ?1 AND LISTING.year <= ?2 AND LISTING.year >= ?3 AND VEHICLE.CONDITION LIKE ?4 AND VEHICLE.title_status LIKE ?5 AND CARMODEL.fuel LIKE ?6\n" +
-            "GROUP BY Listing.year) t, (SELECT COUNT(CARMODEL.transmission) as numof, Listing.year\n" +
+            "GROUP BY LISTING.year) t, (SELECT COUNT(CARMODEL.transmission) as numof, LISTING.year\n" +
             "FROM LISTING, VEHICLE, CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME  AND CARMODEL.MODEL_NAME LIKE ?1 AND LISTING.year <= ?2 AND LISTING.year >= ?3 AND VEHICLE.CONDITION LIKE ?4 AND VEHICLE.title_status LIKE ?5 AND CARMODEL.fuel LIKE ?6\n" +
-            "GROUP BY Listing.year\n" +
+            "GROUP BY LISTING.year\n" +
             ") t2\n" +
-            "WHERE  t.year = t2.year and t.year = Listing.year and Listing.year < 2020\n" +
-            "ORDER BY LIsting.year DESC")
-    List<Object[]> showComplex1(String modelName, Integer maxYear, Integer minYear, String condition, String status, String fuel);
+            "WHERE  t.year = t2.year and t.year = LISTING.year and LISTING.year < 2020\n" +
+            "ORDER BY LISTING.year DESC")
+    List<Object[]> showComplex1(String MODELName, Integer maxYear, Integer minYear, String condition, String status, String fuel);
 
     @Query(nativeQuery = true, value = "SELECT t.avgodo, t.year\n" +
             "FROM (SELECT AVG(VEHICLE.odometer) as avgodo, LISTING.year\n" +
             "FROM LISTING, VEHICLE, CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME AND CARMODEL.MODEL_NAME LIKE ?1 AND LISTING.year <= ?2 AND LISTING.year >= ?3 AND VEHICLE.CONDITION LIKE ?4 AND VEHICLE.title_status LIKE ?5 AND CARMODEL.fuel LIKE ?6\n" +
-            "GROUP BY Listing.year\n" +
+            "GROUP BY LISTING.year\n" +
             ") t \n" +
             "WHERE t.year< 2020\n" +
             "ORDER BY t.year DESC")
-    List<Object[]> showComplex2(String modelName, Integer maxYear, Integer minYear, String condition, String status, String fuel);
+    List<Object[]> showComplex2(String MODELName, Integer maxYear, Integer minYear, String condition, String status, String fuel);
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT t4.kinds,t4.numsize, Listing.year\n" +
+    @Query(nativeQuery = true, value = "SELECT DISTINCT t4.kinds,t4.numsize, LISTING.year\n" +
             "FROM \n" +
-            "Listing, (SELECT t2.kinds,t2.numsize, t2.year\n" +
-            "FROM (SELECT COUNT(*) as numsize, CARMODEL.CAR_SIZE as kinds, Listing.year\n" +
+            "LISTING, (SELECT t2.kinds,t2.numsize, t2.year\n" +
+            "FROM (SELECT COUNT(*) as numsize, CARMODEL.CAR_SIZE as kinds, LISTING.year\n" +
             "FROM LISTING, VEHICLE, CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME AND CARMODEL.DESIGNED_BY LIKE ?1 AND CARMODEL.MODEL_NAME LIKE ?2 AND VEHICLE.CONDITION LIKE ?3 AND VEHICLE.title_status LIKE ?4 AND LISTING.year <= ?5 AND LISTING.year >= ?6\n" +
-            "GROUP BY CARMODEL.CAR_SIZE, Listing.year\n" +
+            "GROUP BY CARMODEL.CAR_SIZE, LISTING.year\n" +
             ") t2\n" +
-            "WHERE t2.numsize >= ALL(SELECT t3.numsize FROM (SELECT COUNT(*) as numsize, CARMODEL.CAR_SIZE as kinds, Listing.year\n" +
+            "WHERE t2.numsize >= ALL(SELECT t3.numsize FROM (SELECT COUNT(*) as numsize, CARMODEL.CAR_SIZE as kinds, LISTING.year\n" +
             "FROM LISTING, VEHICLE, CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME AND CARMODEL.DESIGNED_BY LIKE ?1 AND CARMODEL.MODEL_NAME LIKE ?2 AND VEHICLE.CONDITION LIKE ?3 AND VEHICLE.title_status LIKE ?4 AND LISTING.year <= ?5 AND LISTING.year >= ?6\n" +
-            "GROUP BY CARMODEL.CAR_SIZE, Listing.year\n" +
+            "GROUP BY CARMODEL.CAR_SIZE, LISTING.year\n" +
             ") t3 WHERE t3.year = t2.year )) t4\n" +
-            "WHERE  Listing.year = t4.year and Listing.year > 1900 and Listing.year < 2020\n" +
-            "ORDER BY LIsting.year DESC")
-    List<Object[]> showComplex3(String manufacturer, String modelName, String condition, String status, Integer maxYear, Integer minYear);
+            "WHERE  LISTING.year = t4.year and LISTING.year > 1900 and LISTING.year < 2020\n" +
+            "ORDER BY LISTING.year DESC")
+    List<Object[]> showComplex3(String manufacturer, String MODELName, String condition, String status, Integer maxYear, Integer minYear);
 
     @Query(nativeQuery = true, value = "SELECT DISTINCT t.stats, t.year\n" +
             "FROM LISTING,\n" +
-            "(SELECT COUNT(VEHICLE.title_status) as stats, Listing.year\n" +
+            "(SELECT COUNT(VEHICLE.title_status) as stats, LISTING.year\n" +
             "FROM LISTING, VEHICLE, CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME AND CARMODEL.DESIGNED_BY LIKE ?1 AND CARMODEL.MODEL_NAME LIKE ?2 AND VEHICLE.CONDITION LIKE ?3 AND VEHICLE.title_status LIKE ?4 AND LISTING.year <= ?5 AND LISTING.year >= ?6\n" +
-            "GROUP BY Listing.year\n" +
+            "GROUP BY LISTING.year\n" +
             ") t\n" +
             "WHERE  t.year < 2020\n" +
             "ORDER BY t.year DESC")
-    List<Object[]> showComplex4(String manufacturer, String modelName, String condition, String status, Integer maxYear, Integer minYear);
+    List<Object[]> showComplex4(String manufacturer, String MODELName, String condition, String status, Integer maxYear, Integer minYear);
 
     @Query(nativeQuery = true, value = "SELECT DISTINCT t.num, t.year\n" +
-            "FROM LISTING,(SELECT COUNT(*) as num, Listing.year\n" +
+            "FROM LISTING,(SELECT COUNT(*) as num, LISTING.year\n" +
             "FROM LISTING, VEHICLE,CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME AND CARMODEL.DESIGNED_BY LIKE ?1  AND CARMODEL.MODEL_NAME LIKE ?2 AND LISTING.year <= ?3 AND LISTING.year >= ?4\n" +
-            "GROUP BY Listing.year\n" +
+            "GROUP BY LISTING.year\n" +
             ") t\n" +
             "WHERE  t.year < 2020\n" +
             "ORDER BY t.year DESC")
-    List<Object[]> showComplex5(String manufacturer, String modelName, Integer maxYear, Integer minYear);
+    List<Object[]> showComplex5(String manufacturer, String MODELName, Integer maxYear, Integer minYear);
 
     @Query(nativeQuery = true, value = "SELECT DISTINCT t.num, t.year\n" +
-            "FROM LISTING,(SELECT COUNT(VEHICLE.VEHICLE_ID) as num, Listing.year\n" +
+            "FROM LISTING,(SELECT COUNT(VEHICLE.VEHICLE_ID) as num, LISTING.year\n" +
             "FROM LISTING, VEHICLE,CARMODEL\n" +
             "WHERE LISTING.CARID = VEHICLE.VEHICLE_ID AND VEHICLE.MODEL = CARMODEL.MODEL_NAME AND VEHICLE.STATE LIKE ?1 AND VEHICLE.region LIKE ?2 AND LISTING.year <= ?3 AND LISTING.year >= ?4\n" +
-            "GROUP BY Listing.year\n" +
+            "GROUP BY LISTING.year\n" +
             ") t\n" +
             "WHERE  t.year < 2020\n" +
             "ORDER BY t.year DESC")
@@ -95,10 +95,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum1\\:=@rownum1+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2015\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2015\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum1\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -106,10 +106,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum2\\:=@rownum2+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2015\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2015\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum2\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -117,10 +117,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum3\\:=@rownum3+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2015\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2015\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum3\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -134,10 +134,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum4\\:=@rownum4+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2016\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2016\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum4\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -145,10 +145,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum5\\:=@rownum5+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2016\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2016\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum5\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -156,10 +156,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum6\\:=@rownum6+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2016\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2016\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum6\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -173,10 +173,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum7\\:=@rownum7+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2017\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2017\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum7\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -184,10 +184,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum8\\:=@rownum8+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2017\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2017\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum8\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -195,10 +195,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum9\\:=@rownum9+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2017\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2017\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum9\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -212,10 +212,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum10\\:=@rownum10+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2018\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2018\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum10\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -223,10 +223,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum11\\:=@rownum11+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2018\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2018\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum11\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -234,10 +234,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum12\\:=@rownum12+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2018\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2018\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum12\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -251,10 +251,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum13\\:=@rownum13+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2019\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2019\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum13\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -262,10 +262,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum14\\:=@rownum14+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2019\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2019\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum14\\:=0) TEMP\n" +
             "        limit 3\n" +
@@ -273,10 +273,10 @@ public interface QueryRepository extends JpaRepository<Vehicle, String> {
             "        (\n" +
             "        select year, brand, sales, @rownum15\\:=@rownum15+1 as rn\n" +
             "        from (\n" +
-            "            select L.year as year, M.designed_by as brand, count(*) as sales\n" +
-            "            from Listing L, Vehicle V, CARMODEL M\n" +
-            "            where L.carID = V.vehicle_id and M.model_name = V.model and year = 2019\n" +
-            "            group by L.year, M.designed_by\n" +
+            "            select L.year as year, M.DESIGNED_BY as brand, count(*) as sales\n" +
+            "            from LISTING L, VEHICLE V, CARMODEL M\n" +
+            "            where L.CARID = V.VEHICLE_ID and M.MODEL_NAME = V.MODEL and year = 2019\n" +
+            "            group by L.year, M.DESIGNED_BY\n" +
             "            order by year, count(*) DESC\n" +
             "        ) R_temp, (SELECT @rownum15\\:=0) TEMP\n" +
             "        limit 3\n" +
