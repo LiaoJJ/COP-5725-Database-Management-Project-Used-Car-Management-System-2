@@ -4,40 +4,37 @@
 
 In this project, we build a used car management system, we grab the data from [Used Cars Dataset of Kaggle](https://www.kaggle.com/austinreese/craigslist-carstrucks-data), we design the E-R diagram, UI Interface and SQL Database Schema. Then, we implement it by Java, Spring Boot and MySQL.
 
-The concentration of this project will be displaying the insight of databases. We display 8 trending pictures using customized SQL query to display some useful insights of the data.
+The concentration of this project will be displaying the insight of databases. We display 7 trending charts using customized SQL query to display some useful insights of the data.
 
-## Functionality
 
-#### Search form
-- Dynamic List/dropdown selector
-- Text Input
+In the Form part, I implement a Dynamic List/dropdown selector, which will reflect all options in the Database on time. I also add a Full-text search module. I implemented it based on the idea of Elastic Search, using a inverted index for quick full-text search.
 
-#### Elastic Search (building)
-- start a Elastic Search Server by start.sh
-- Initialization: Insert and build Index, (This part could be done by Python)
-- Provide Endpoint for search
-- Display results by WebPages
+Meanwhile, I use Maven to manage the package and compile. Also, I use Docker and Dockerfile to standard the deployment processes. Then, I deploy it on Heroku [here](https://dbms-jiajing.herokuapp.com/showamount).
 
-#### 7 Complex Query 
-
-- Dynamic List/dropdown selector
-- Designed 7 Complex Customized Query
+(This project was originally based on Oracle Database, then I modified it to MySQL for cheaper deployment.
+)
 
 ## Technology Stack
 - Spring Boot, Java
 - MySQL, JPA, Hibernate
 - Thymeleaf, Bootstrap, HTML, JavaScript
-- Docker, Heroku, Shell
+- Maven, Docker, Heroku, Shell
 
-#### RESTful API
+## RESTful API Examples
 
-For Search
-- /search/form
-- /search/Elastic
+Form-based Search:
 
-For Trending Query
-- /trend/form/1
-- /trend/show/1
+[/search/form](https://dbms-jiajing.herokuapp.com/search/form)
+
+Full-text Search: 
+
+[/search/elastic](https://dbms-jiajing.herokuapp.com/search/elastic?q=Toyota+2016)
+
+For Trending Query:
+
+[/trend/form/1](https://dbms-jiajing.herokuapp.com/trend/form/1)        
+
+[/trend/show/1](https://dbms-jiajing.herokuapp.com/trend/show/1?minYear=2000&maxYear=2020&condition=EXCELLENT&modelName=&status=CLEAN&fuel=GAS)
 
 ## Report 
 This is our 3 reports to this project
@@ -48,19 +45,45 @@ This is our 3 reports to this project
 
 [Report 3: Database Schema Construction](deliverable/Database%20Schema%20Construction.pdf)
 
-E-R Diagram
-![](result-images/ER.png)
+## Function Model Explanation
 
-search form page
-![](result-images/search-form.jpg)
 
-trending results
-![](result-images/trend1.png)
 
-![](result-images/trend7.png)
 
-![](result-images/trend8.png)
 
+
+
+
+-------------------------------------------
+
+
+
+## Elastic Search
+
+#### What is Elastic Search
+Elastic Search is built on Apache Lucen, it is a full-text search engine, it uses inverted index for quick full-text search, it store data in a JSON format, and it support convenient sharding and replica. Basically it maintaines a HashMap, the key is word, and the value is the id of content, for every search key word, it will check the HashMap for the ids including these key word. And Finally, it will sort them by similarity and output it. Elastic Search supports many kinds of query style. It also suppots very good visulization tool, Kibana, and data filter tool, Logstash.
+
+Steps
+- start a Elastic Search Server by start.sh
+- Initialization: Insert and build Index, (This part could be done by Python)
+- Provide Endpoint for search
+- Display results by WebPages
+
+#### Problems
+Elastic running on Heroku will leads to Memory exceeds and Elastic Search add-on is expensive on Heroku, I can only implement a simpler version by myself.
+
+#### My Simple Elastic Search Design
+Build Phase, maintain 2 HashMap, update them for every input
+- Map<String, Set<String>> word2idList
+- Map<String, String> id2text
+
+Search Phase, calculate the score for every id, and output the sorted results
+- Map<String, Integer> id2score
+- then sort by score and display the 100 text with biggest score
+
+
+
+-------------------------------------------
 
 ## Deployment 
 
@@ -75,6 +98,15 @@ docker run -it -p 8181:8181 aaa
 java -Dserver.port=8181 -jar ./target/boot-0.0.1-SNAPSHOT.jar
 ```
 
+
+
+
+
+
+
+
+
+-------------------------------------------
 
 ## MySQL
 ```
@@ -92,11 +124,13 @@ docker exec -i 3b83d0e6eae9 sh -c 'exec mysql -u root --password=12345678 Mybati
 
 
 
+
 #### MySQL Problems:
 
-## Remote MySQL
+#### Remote MySQL
 It's case sensitive, so I have to configure IgnoreCase in Repository
 Create table by .sql file, change it to uppercase by shell `dd if=input.txt of=output.txt conv=ucase`
+Then change all SQL in Source Code to Uppercase
 
 #### Username and password wrong
 This was usually caused by exceeds the max connection, remember to close connection after using.
@@ -113,6 +147,11 @@ use a start.sh to sleep 10 seconds
 
 
 
+
+
+
+
+-------------------------------------------
 
 ## Docker
 
@@ -135,6 +174,14 @@ docker run -d -it  -e MYSQL_ROOT_PASSWORD=12345678 -e MYSQL_DATABASE=Mybatis mys
 docker exec -it ea855b511660 /bin/bash
 ```
 
+
+
+
+
+
+
+-------------------------------------------
+
 ## Heroku
 
 #### how to publish them to heroku: 
@@ -147,8 +194,37 @@ heroku open
 heroku logs --tail
 ```
 
+#### How to make Heroku alwasy running
+- create a Google Sheets
+- click Tools -> Script Editors
+- start a new editor, copy below code
+```javascript
+function myFunction() {
+  var d = new Date();
+  var minutes = d.getMinutes();
+  var hours = d.getHours();
+  var currentTime = d.toLocaleDateString();
+  var counter = SpreadsheetApp.getActiveSheet().getRange('B1').getValues();
+
+  var response3 = UrlFetchApp.fetch("https://dbms-jiajing.herokuapp.com/showamount");
+ 
+  if (hours >= 8 && hours <= 24) {
+    var response = UrlFetchApp.fetch("https://yelp-camp-jack-liao.herokuapp.com/");
+    var response2 = UrlFetchApp.fetch("https://react-expensify-jack-liao.herokuapp.com/");
+    SpreadsheetApp.getActiveSheet().getRange('A1').setValue('Visted at ' + hours + ":" + minutes + ", " + currentTime);
+    SpreadsheetApp.getActiveSheet().getRange('B1').setValue(Number(counter) + 1);
+  }
+}
+
+```
+- set a time-based trigger for myFunction, e.g. every 15 minutes
+- Done.
+
+
 
 #### How to bind the port 
+
+#### Plan A
 - application.properties: server.port=${PORT: 8181}
 - Dockerfile: `CMD ["java", "-Xss512k", "-Xmx256m","-jar", "/app.jar", "--server.port=${PORT:8181}"]`
 
@@ -162,12 +238,31 @@ Below line means success, but it still may exceeds 60 seconds limit, so try more
 java -jar /app.jar --server.port\=\$\{PORT:8181\}
 ```
 
+
+#### PLAN B
+Dockerfile:
+```shell script
+echo "PORT=$PORT" >> ~/.bash_profile
+```
+
+start.sh
+```shell script
+source ~/.bash_profile
+echo "The port is "
+echo $PORT
+
+java -Xss512k -Xmx256m -jar /app.jar --server.port=$PORT
+```
+
 #### Volume exceed problem:
 `error r14 (memory quota exceeded)`
 ClearDB 5MB Limit: tailor the database to 1/4 size
 Heroku: it still work though memory exceeds, but will be slower, and it will shutdown instead of sleep while idle
 Solution: Configure JVM
 `CMD ["java", "-Xss512k", "-Xmx256m","-jar", "/app.jar", "--server.port=${PORT:8181}"]`
+
+
+
 
 
 ## Deployment PLAN
@@ -198,7 +293,9 @@ solutions:
 - understand how to start mysqld in shell
 - quit this problem and adopt Plan A. don't waste time.
 
-
+This also not work for ElasticSearch when deploying to Heroku
+- *** Error in `ps-run': realloc(): invalid pointer: 0x0000000000402349 ***
+- Memory Exceeds
 
 
 #### PLAN C: put spring-boot and mysql in 2 seperate container
@@ -212,6 +309,33 @@ how to connect them in heroku, not solved, don't waste time
 
 
 
+
+
+
+
+## Pictures
+
+E-R Diagram
+![](result-images/ER.png)
+
+search form page
+![](result-images/search-form.jpg)
+
+trending results
+![](result-images/trend1.png)
+
+![](result-images/trend7.png)
+
+![](result-images/trend8.png)
+
+
+
+
+
+
+
+
+
 ## Future:
 
 - Input Data is static, it should be dynamically crawlered from some website
@@ -219,6 +343,7 @@ how to connect them in heroku, not solved, don't waste time
 - seperate Frontend and Backend, communicate by JSON data
 - add Cache for list Query
 - optimize Query efficiency
+- add Page for Search Results
 
 
 
@@ -234,50 +359,4 @@ Waste your time on valuable things, not trivial details.
 I should improve my scope and do not waste time on trivial details.
 
 
-## Version:
-- spring-boot:2.2.5
-- mysql:5.7 (clearDB) 
-- openjdk:8-jre-alpine
-- Thymeleaf
-- bootstrap
-- html
-- css
 
-
-(This project was originally based on Oracle Database, then I modified it to MySQL for cheaper deployment.
-)
-
-## history
-
-
-#### Apr 17 2:03 am
-
-- add Trend 8
-
-#### Apr 17 12:40 am
-
-- finish Trend Page 2-7 form and show
-- use various Chart type to display the data: line, bar, dashed, filled, displayLine
-
-```$xslt
-http://localhost:8080/dbms/trend2/form
-http://localhost:8080/dbms/trend2/show
-
-to
-
-http://localhost:8080/dbms/trend7/form
-http://localhost:8080/dbms/trend7/show
-```
-#### Apr 12 8:43 pm
-
-
-finish 4 url for testing
-
-search form, search show
-trend1 form, trend1 show
-```
-http://localhost:8080/dbms/search/form
-http://localhost:8080/dbms/search/show
-http://localhost:8080/dbms/trend1/form
-http://localhost:8080/dbms/trend1/show
-```

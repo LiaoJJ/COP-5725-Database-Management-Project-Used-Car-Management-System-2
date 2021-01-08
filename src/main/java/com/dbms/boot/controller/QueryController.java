@@ -4,9 +4,13 @@ import com.dbms.boot.entities.*;
 import com.dbms.boot.repository.*;
 //import com.dbms.boot.object.*;
 import com.dbms.boot.service.ListService;
+import com.dbms.boot.service.SearchService;
+import com.dbms.boot.service.SearchServiceDropped;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -23,6 +27,9 @@ public class QueryController {
 
     @Autowired
     ListService listService;
+
+    @Autowired
+    SearchService searchService;
 
     private Integer bigToInt(BigDecimal b) {
         if (b == null) return null;
@@ -62,6 +69,14 @@ public class QueryController {
         List<SearchResPara> list = objects.stream().map(
                 o -> new SearchResPara((BigDecimal) o[0], (Integer) o[1], (BigDecimal) o[2], (String) o[3], (BigDecimal) o[4], (String) o[5], (String) o[6], (String) o[7], (String) o[8], (String) o[9], (String) o[10])
         ).collect(Collectors.toList());
+        model.addAttribute("res", list);
+        return "search/search-show";
+    }
+
+    @GetMapping("/search/elastic")
+    public String elasticSearch(Model model, HttpServletRequest request) throws IOException {
+        String q = request.getParameter("q");
+        List<SearchResPara> list = searchService.elasticSearch(q);
         model.addAttribute("res", list);
         return "search/search-show";
     }

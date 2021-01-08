@@ -40,4 +40,18 @@ public class SearchResPara {
         this.MODEL = MODEL;
         this.DESIGNED_BY = DESIGNED_BY;
     }
+
+    public SearchResPara(String[] s){
+        LISTING_ID = new BigDecimal(s[0]);
+        YEAR = new Integer(s[1]);
+        PRICE = new BigDecimal(s[2]);
+        COLOR = s[3];
+        ODOMETER = new BigDecimal(s[4]);
+        TITLE_STATUS = s[5];
+        CONDITION = s[6];
+        REGION = s[7];
+        STATE = s[8];
+        MODEL = s[9];
+        DESIGNED_BY = s[10];
+    }
 }

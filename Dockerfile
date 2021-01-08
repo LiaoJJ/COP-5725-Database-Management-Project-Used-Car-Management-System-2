@@ -70,10 +70,48 @@
 
 
 
+#FROM openjdk:8-jre-alpine
+#
+#COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
+#
+##EXPOSE $PORT
+#
+#CMD ["java", "-Xss512k", "-Xmx256m","-jar", "/app.jar", "--server.port=${PORT:8181}"]
+
+
+
+
+
+#FROM docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+#
+#COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
+#COPY start.sh /start.sh
+#COPY start.sh /vehicles.csv
+#ADD jre-8u271-linux-x64.tar.gz /usr/local
+#ENV JAVA_HOME /usr/local/jre1.8.0_271
+#ENV PATH $PATH:$JAVA_HOME/bin
+#ENV discovery.type single-node
+#RUN ["chmod", "a+x", "/app.jar"]
+#RUN ["chmod", "a+x", "/start.sh"]
+#RUN ["chmod", "a+x", "/vehicles.csv"]
+#
+##RUN echo "java -Xss512k -Xmx256m -jar /app.jar --server.port=${PORT:8181}" >> /usr/local/bin/docker-entrypoint.sh
+#
+##ENTRYPOINT ["/tini", "--", "/usr/local/bin/docker-entrypoint.sh", "eswrapper"]
+#
+#ENTRYPOINT echo "PORT=$PORT" >> ~/.bash_profile && /start.sh && /bin/bash
+
+
+
+
+
+
 FROM openjdk:8-jre-alpine
 
 COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
+COPY vehicles.csv /vehicles.csv
+RUN ["chmod", "a+x", "/vehicles.csv"]
 
-EXPOSE $PORT
+#EXPOSE $PORT
 
 CMD ["java", "-Xss512k", "-Xmx256m","-jar", "/app.jar", "--server.port=${PORT:8181}"]
