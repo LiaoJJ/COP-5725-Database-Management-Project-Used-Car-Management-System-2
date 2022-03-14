@@ -92,7 +92,7 @@ https://dbms-jiajing.herokuapp.com/showamount
 ## steps
 ```
 mvn clean package
-docker build -t aaa
+docker build -t aaa .
 docker run -it -p 8181:8181 aaa
 
 java -Dserver.port=8181 -jar ./target/boot-0.0.1-SNAPSHOT.jar
@@ -360,3 +360,18 @@ I should improve my scope and do not waste time on trivial details.
 
 
 
+## Future Fix for Heroku Error (Persona notes)
+- heroku account is my ufl.edu e-mail
+- all file could be downloaded from my personal Google Drive folder: https://drive.google.com/drive/u/0/folders/14IeXphs0ce0CJN28RI8w49TToOnGpIkJ
+
+#### Steps to deploy again
+- `cd "/Users/ljj/Documents/Courses/CS/DBMS/proj/DBMS-Project-master"` (This is on my personal mac directory)
+- go to https://remotemysql.com/databases.php get updated user name and password, change in application.properties
+- import everything from UsedCar-UpperCase.sql into https://remotemysql.com/databases.php, you may want to use DataGrip from JetBrains
+- install a JDK, then `export JAVA_HOME="path to your JDK Home"`
+- rebuild project using maven: `./mvnw clean package `
+  - you may also download a mvn here: https://maven.apache.org/install.html)
+  - you may want change lombak version here: https://stackoverflow.com/questions/66801256/java-lang-illegalaccesserror-class-lombok-javac-apt-lombokprocessor-cannot-acce
+- `docker build -t web . `
+- follow steps in 'https://dashboard.heroku.com/apps/dbms-jiajing/deploy/heroku-container' to release it.
+- check Heroku monitor status: https://script.google.com/home/projects/1LQY1WLhNfUvUiWFN9UoXmaPJhCsvUD3xA9VnFUSP2i4rASjFtO0clnmF/edit
