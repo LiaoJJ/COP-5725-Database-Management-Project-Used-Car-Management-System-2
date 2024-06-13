@@ -110,9 +110,9 @@ FROM openjdk:8-jre-alpine
 
 COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
 #RUN unzip vehicles.zip
-#COPY vehicles.csv /
+COPY vehicles.csv /
 
-ADD vehicles.tar.gz /
+# ADD vehicles.tar.xz /
 
 # RUN unzip vehicles.zip
 # RUN rm vehicles.zip
