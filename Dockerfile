@@ -112,7 +112,7 @@ COPY target/boot-0.0.1-SNAPSHOT.jar /app.jar
 #RUN unzip vehicles.zip
 #COPY vehicles.csv /
 
-ADD vehicles.tar.xz /
+ADD vehicles.tar.gz /
 
 # RUN unzip vehicles.zip
 # RUN rm vehicles.zip
