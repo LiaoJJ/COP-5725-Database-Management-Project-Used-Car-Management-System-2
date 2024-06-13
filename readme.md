@@ -383,3 +383,8 @@ I should improve my scope and do not waste time on trivial details.
 - go to this website, https://dashboard.render.com/web/srv-cg5qqgseoogqpifmeop0/events, deploy by git last commit.
 - Render does not deploy by Docker, it deploy by GitHub, so we have to leave the .jar file in github
 - Render has a size limit, I have to compress the vehicles.csv to smallest, using `xz` format here instead of `gzip`, cmd: ` tar cv path/to/data | xz -9 > file.tar.xz`, referring here: https://superuser.com/questions/514260/how-to-obtain-maximum-compression-with-tar-gz
+
+#### 06/13/2024
+The website failed because of 2 reasons,
+- Render cannot support `ADD compressed file`, solution is upload `.csv` file to GitHub, or initiate Render with Docker image directly. 
+- free MySQL DB is not stable and is gone. Next time we should update MySQL to PostgreSQL and put the server on Render as well, Render has a good PostgreSQL freetrial. 
